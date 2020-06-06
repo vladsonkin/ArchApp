@@ -1,0 +1,18 @@
+apply from: '../../android_feature_dependencies.gradle'
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "com.hamedsafari.common_test.FakeRunner"
+    }
+    dataBinding {
+        enabled true
+    }
+    testOptions {
+        animationsDisabled = true
+    }
+}
+
+dependencies {
+    // COIL
+    implementation Libraries.coil
+}
