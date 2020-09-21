@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.hamedsafari.common.base.BaseFragment
 import com.hamedsafari.common.base.BaseViewModel
@@ -31,6 +33,13 @@ class DetailFragment : BaseFragment() {
         binding.viewmodel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.user.observe(viewLifecycleOwner) {
+            findNavController().previousBackStackEntry?.savedStateHandle?.set("user", it.name)
+        }
     }
 
     override fun getViewModel(): BaseViewModel = viewModel

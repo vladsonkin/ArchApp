@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.hamedsafari.common.base.BaseFragment
 import com.hamedsafari.common.base.BaseViewModel
+import com.hamedsafari.common.extension.showSnackbar
 import com.hamedsafari.home.databinding.FragmentHomeBinding
 import com.hamedsafari.home.views.HomeAdapter
 import com.hamedsafari.model.User
@@ -31,6 +35,12 @@ class HomeFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         configureRecyclerView()
+
+        // We use a String here, but any type that can be put in a Bundle is supported
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("user")?.observe(
+            viewLifecycleOwner) { result ->
+            showSnackbar("User clicked: $result", Snackbar.LENGTH_SHORT)
+        }
     }
 
     override fun getViewModel(): BaseViewModel = viewModel
